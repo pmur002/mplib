@@ -1,0 +1,4 @@
+
+# NOTE: NO QUOTES !!!
+PKG_LIBS=-L/usr/lib -lmplib
+

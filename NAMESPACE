@@ -1,0 +1,13 @@
+
+useDynLib(mplib, .registration=TRUE)
+
+import(metapost)
+importFrom(abind,
+           abind)
+importFrom(grid,
+           convertX,
+           convertY)
+importFrom(Rcpp,
+           evalCpp)
+
+export("mpsolve")

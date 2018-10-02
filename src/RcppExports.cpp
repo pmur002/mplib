@@ -6,15 +6,15 @@
 using namespace Rcpp;
 
 // solvePath
-Rcpp::NumericVector solvePath(const Rcpp::NumericVector& x, int nKnots, int nPaths);
-RcppExport SEXP _mplib_solvePath(SEXP xSEXP, SEXP nKnotsSEXP, SEXP nPathsSEXP) {
+Rcpp::NumericVector solvePath(const Rcpp::NumericVector& x, int nKnots, bool cycle);
+RcppExport SEXP _mplib_solvePath(SEXP xSEXP, SEXP nKnotsSEXP, SEXP cycleSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type nKnots(nKnotsSEXP);
-    Rcpp::traits::input_parameter< int >::type nPaths(nPathsSEXP);
-    rcpp_result_gen = Rcpp::wrap(solvePath(x, nKnots, nPaths));
+    Rcpp::traits::input_parameter< bool >::type cycle(cycleSEXP);
+    rcpp_result_gen = Rcpp::wrap(solvePath(x, nKnots, cycle));
     return rcpp_result_gen;
 END_RCPP
 }

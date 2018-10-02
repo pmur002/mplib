@@ -2,6 +2,8 @@
 library(mplib)
 library(grid)
 
+options(metapost.units="in")
+
 curves <- mpsolve(knot(1,1) + knot(2,2))
 grid.draw(curves)
 
@@ -10,6 +12,8 @@ grid.draw(curves)
 
 curves <- mpsolve(knot(0,0) + dir(0) + dir(0) + knot(1, 1))
 grid.draw(curves)
+
+options(metapost.units="pt")
 
 grid.newpage()
 p <- knot(0, 0) + knot(10, 10) + knot(10, -5) + cycle()

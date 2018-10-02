@@ -34,16 +34,13 @@ pathList <- function(x, n) {
 
 pathGrobs <- function(x, cycle) {
     pts <- matrix(x, byrow=TRUE, ncol=2)
-    ncurves <- (nrow(pts)) %/% 4
-    if (!cycle)
+    ncurves <- nrow(pts) %/% 4
+    if (!cycle) {
         ncurves <- ncurves - 1
-    curve <- vector("list", ncurves)
-    for (i in 1:ncurves) {
-        subset <- ((i-1)*4 + 1):(i*4)
-        curve[[i]] <- bezierGrob(pts[subset, 1], pts[subset, 2],
-                                 default.units="pt")
+        pts <- pts[1:(ncurves*4), ]
     }
-    gTree(children=do.call("gList", curve))
+    bezierGrob(pts[, 1], pts[, 2], id=rep(1:ncurves, each=4),
+               default.units="pt")
 }
 
 mpsolve <- function(x) {

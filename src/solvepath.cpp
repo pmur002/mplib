@@ -91,7 +91,6 @@ mp_knot append_knot(MP mp, mp_knot prev, int i,
     if (!knot) exit(EXIT_FAILURE);
     double dir_left = knot_dir_left(i, knotArray, nKnots);
     double dir_right = knot_dir_right(i, knotArray, nKnots);
-    printf("dir = %f %f\n", dir_left, dir_right);
     if (!isnan(dir_left) || !isnan(dir_right)) {
         // FIXME
         // We cannot handle different left/right directions in MPlib, 
@@ -110,17 +109,51 @@ mp_knot append_knot(MP mp, mp_knot prev, int i,
     }
     double curl_left = knot_curl_left(i, knotArray, nKnots);
     double curl_right = knot_curl_right(i, knotArray, nKnots);
+    if (!isnan(curl_left)) {
+        mp_result = mp_set_knot_left_curl(mp, knot, curl_left);
+        if (!mp_result) exit(EXIT_FAILURE);
+    }
+    if (!isnan(curl_right)) {
+        mp_result = mp_set_knot_right_curl(mp, knot, curl_left);
+        if (!mp_result) exit(EXIT_FAILURE);
+    }
     // For a non-cyclic path, in the absence of direction (and explicit curl),
-    // the curl should default to 1
-    if (first && !cycle && isnan(dir_right) && isnan(curl_right)) {
+    // the first knit right curl should default to 1
+    if (first && !cycle && 
+        isnan(dir_left) && isnan(dir_right) && 
+        isnan(curl_right)) {
         mp_result = mp_set_knot_right_curl(mp, knot, 1.0);
         if (!mp_result) exit(EXIT_FAILURE);
     }
-    // FIXME
     // For a non-cyclic path, in the absence of direction (and explicit curl),
-    // the curl should default to 1
-    if (last && !cycle && isnan(dir_left) && isnan(curl_left)) {
+    // the last knot left curl should default to 1
+    if (last && !cycle && 
+        isnan(dir_left) && isnan(dir_right) && 
+        isnan(curl_left)) {
         mp_result = mp_set_knot_left_curl(mp, knot, 1.0);
+        if (!mp_result) exit(EXIT_FAILURE);
+    }
+    double tension_left = knot_tension_left(i, knotArray, nKnots);
+    double tension_right = knot_tension_right(i, knotArray, nKnots);
+    if (!isnan(tension_left)) {
+        mp_result = mp_set_knot_left_tension(mp, knot, tension_left);
+        if (!mp_result) exit(EXIT_FAILURE);
+    }
+    if (!isnan(tension_right)) {
+        mp_result = mp_set_knot_right_tension(mp, knot, tension_left);
+        if (!mp_result) exit(EXIT_FAILURE);
+    }
+    // BOTH x and y have to be non-NaN to set the explicit control point
+    double cp_left_x = knot_cp_left_x(i, knotArray, nKnots);
+    double cp_left_y = knot_cp_left_y(i, knotArray, nKnots);
+    if (!isnan(cp_left_x) && !isnan(cp_left_x)) {
+        mp_result = mp_set_knot_left_control(mp, knot, cp_left_x, cp_left_y);
+        if (!mp_result) exit(EXIT_FAILURE);
+    }
+    double cp_right_x = knot_cp_right_x(i, knotArray, nKnots);
+    double cp_right_y = knot_cp_right_y(i, knotArray, nKnots);
+    if (!isnan(cp_right_x) && !isnan(cp_right_x)) {
+        mp_result = mp_set_knot_right_control(mp, knot, cp_right_x, cp_right_y);
         if (!mp_result) exit(EXIT_FAILURE);
     }
     return knot;

@@ -32,6 +32,20 @@ pathList <- function(x, n) {
            })
 }
 
+pathGrobs <- function(x, cycle) {
+    pts <- matrix(x, byrow=TRUE, ncol=2)
+    ncurves <- (nrow(pts)) %/% 4
+    if (!cycle)
+        ncurves <- ncurves - 1
+    curve <- vector("list", ncurves)
+    for (i in 1:ncurves) {
+        subset <- ((i-1)*4 + 1):(i*4)
+        curve[[i]] <- bezierGrob(pts[subset, 1], pts[subset, 2],
+                                 default.units="pt")
+    }
+    gTree(children=do.call("gList", curve))
+}
+
 mpsolve <- function(x) {
     if (!(inherits(x, "path") && inherits(x, "mpobj")))
         stop("'x' must be a MetaPost path")
@@ -44,8 +58,5 @@ mpsolve <- function(x) {
     }
     paths <- pathList(x, nPaths)
     controls <- lapply(paths, solvePath, nKnots, cycle)
-    lapply(controls,
-           function(x) {
-               matrix(x, byrow=TRUE, ncol=2)
-           })
+    gTree(children=do.call("gList", lapply(controls, pathGrobs, cycle)))
 }

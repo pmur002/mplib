@@ -96,6 +96,9 @@ mp_knot append_knot(MP mp, mp_knot prev, int i,
         // We cannot handle different left/right directions in MPlib, 
         // so need to send a warning!
         // (Left currently wins if both given and not the same)
+        // POSSIBLE FIX:  detect this situation at R level and split
+        //                into multiple paths to solve, then recombine
+        //                solved paths (?)
         double dir_x, dir_y;
         if (!isnan(dir_left)) {
             dir_x = cos(dir_left/180*M_PI);

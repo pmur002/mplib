@@ -1,15 +1,4 @@
 
-pathGrobs <- function(controls) {
-    ncurves <- (nrow(controls) - 1) %/% 3
-    curve <- vector("list", ncurves)
-    for (i in 1:ncurves) {
-        subset <- ((i-1)*3 + 1):(i*3 + 1)
-        curve[[i]] <- bezierGrob(controls[subset, 1], controls[subset, 2],
-                                 default.units="native")
-    }
-    gTree(children=do.call("gList", curve))
-}
-
 knotToMatrix <- function(x, len) {
     x$x <- convertX(x$x, "pt", valueOnly=TRUE)
     x$y <- convertX(x$y, "pt", valueOnly=TRUE)

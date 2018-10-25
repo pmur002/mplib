@@ -9,5 +9,5 @@ Description: Provides a limited interface to the METAPOST library mplib.
     obtain the knots that METAPOST calculates to satisfy the path.
 License: GPL (>= 2)
 Depends: metapost
-Imports: Rcpp
+Imports: Rcpp, gridBezier
 LinkingTo: Rcpp

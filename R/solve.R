@@ -21,20 +21,25 @@ pathList <- function(x, n) {
            })
 }
 
-pathGrobs <- function(x, pathIndex, cycle) {
+tidyResult <- function(x, cycle) {
     pts <- matrix(x, byrow=TRUE, ncol=2)
     ncurves <- nrow(pts) %/% 4
     if (!cycle) {
         ncurves <- ncurves - 1
         pts <- pts[1:(ncurves*4), ]
     }
-    bezierGrob(pts[, 1], pts[, 2], id=rep(1:ncurves, each=4),
-               default.units="pt",
-               name=paste0("path-", pathIndex))
+    if (ncurves > 1) {
+        subset <- -seq(5, ncurves*4, by=4)
+    } else {
+        subset <- 1:4
+    }
+    controls <- list(x=pts[subset, 1], y=pts[subset, 2])
+    class(controls) <- "mpcontrols"
+    controls
 }
 
-mpsolve <- function(x, name=NULL) {
-    if (!(inherits(x, "path") && inherits(x, "mpobj")))
+mpsolve <- function(x) {
+    if (!(inherits(x, "mppath")))
         stop("'x' must be a MetaPost path")
     nPaths <- max(sapply(x$knots, length))
     nKnots <- length(x)
@@ -44,9 +49,8 @@ mpsolve <- function(x, name=NULL) {
         nKnots <- nKnots - 1
     }
     paths <- pathList(x, nPaths)
-    controls <- lapply(paths, solvePath, nKnots, cycle)
-    gTree(children=do.call("gList",
-                           mapply(pathGrobs, controls, 1:nPaths,
-                                  MoreArgs=list(cycle), SIMPLIFY=FALSE)),
-          name=name)
+    solvedPaths <- lapply(paths, solvePath, nKnots, cycle)
+    pathControls <- lapply(solvedPaths, tidyResult, cycle)
+    class(pathControls) <- "mpcontrolList"
+    pathControls
 }

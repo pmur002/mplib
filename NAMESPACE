@@ -4,8 +4,13 @@ useDynLib(mplib, .registration=TRUE)
 import(metapost)
 importFrom(grid,
            convertX,
-           convertY)
+           convertY,
+           gList,
+           gTree)
 importFrom(Rcpp,
            evalCpp)
+importFrom(gridBezier,
+           BezierGrob)
 
 export("mpsolve")
+export("grid.mplib")

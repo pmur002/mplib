@@ -6,9 +6,11 @@ importFrom(grid,
            convertX,
            convertY,
            gList,
+           gpar,
            grid.draw,
            gTree,
-           makeContent)
+           makeContent,
+           setChildren)
 importFrom(Rcpp,
            evalCpp)
 importFrom(gridBezier,

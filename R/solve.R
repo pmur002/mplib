@@ -22,6 +22,9 @@ pathList <- function(x, n) {
 }
 
 tidyResult <- function(x, cycle) {
+    if (is.null(x)) {
+        warning("mplib failed")
+    }
     pts <- matrix(x, byrow=TRUE, ncol=2)
     ncurves <- nrow(pts) %/% 4
     if (!cycle) {

@@ -7,7 +7,8 @@ importFrom(grid,
            convertY,
            gList,
            grid.draw,
-           gTree)
+           gTree,
+           makeContent)
 importFrom(Rcpp,
            evalCpp)
 importFrom(gridBezier,
@@ -18,4 +19,4 @@ export("mpsolve",
        "grid.mplib",
        "mplibGrob")
 
-S3method("makeContent", "mplibGrob")
+S3method("makeContent", "mplibgrob")

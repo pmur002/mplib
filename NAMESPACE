@@ -6,11 +6,16 @@ importFrom(grid,
            convertX,
            convertY,
            gList,
+           grid.draw,
            gTree)
 importFrom(Rcpp,
            evalCpp)
 importFrom(gridBezier,
            BezierGrob)
 
-export("mpsolve")
-export("grid.mplib")
+export("mpsolve",
+       
+       "grid.mplib",
+       "mplibGrob")
+
+S3method("makeContent", "mplibGrob")

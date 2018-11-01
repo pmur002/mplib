@@ -1,13 +1,13 @@
 
 knotToMatrix <- function(x, len) {
-    x$x <- convertX(x$x, "pt", valueOnly=TRUE)
-    x$y <- convertX(x$y, "pt", valueOnly=TRUE)
+    x$x <- convertX(x$x, "bigpts", valueOnly=TRUE)
+    x$y <- convertX(x$y, "bigpts", valueOnly=TRUE)
     if (any(is.na(x$x) | is.na(x$y)))
         stop("Knot locations cannot be missing values")
-    x$cp.left.x <- convertX(x$cp.left.x, "pt", valueOnly=TRUE)
-    x$cp.left.y <- convertY(x$cp.left.y, "pt", valueOnly=TRUE)
-    x$cp.right.x <- convertX(x$cp.right.x, "pt", valueOnly=TRUE)
-    x$cp.right.y <- convertY(x$cp.right.y, "pt", valueOnly=TRUE)
+    x$cp.left.x <- convertX(x$cp.left.x, "bigpts", valueOnly=TRUE)
+    x$cp.left.y <- convertY(x$cp.left.y, "bigpts", valueOnly=TRUE)
+    x$cp.right.x <- convertX(x$cp.right.x, "bigpts", valueOnly=TRUE)
+    x$cp.right.y <- convertY(x$cp.right.y, "bigpts", valueOnly=TRUE)
     x <- lapply(x, rep, length=len)
     do.call(cbind, x)
 }
